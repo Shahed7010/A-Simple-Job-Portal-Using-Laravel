@@ -19,32 +19,34 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+
 
 
 Route::group(['middleware'=>['user']],function () {
-    Route::resource('user', 'UserController');
+    Route::resource('/user', 'UserController');
+    Route::get('/home', 'HomeController@index')->name('home');
 });
 
 
 Route::group(['middleware'=>['admin']],function (){
 
-Route::get('company/home', 'CompanyController@index')->name('company.home');
-Route::get('company/login','Company\LoginController@showLoginForm')->name('company.login');
-Route::POST('company/login','Company\LoginController@login');
+    Route::get('company/home', 'CompanyController@index')->name('company.home');
 
-Route::GET('company-password/confirm','Company\ConfirmPasswordController@showConfirmForm')->name('company.password.confirm');
-Route::POST('company-password/confirm','Company\ConfirmPasswordController@confirm');
-Route::POST('company-password/email','Company\ForgotPasswordController@sendResetLinkEmail')->name('company.password.email');
-Route::GET('company-password/reset','Company\ForgotPasswordController@showLinkRequestForm')->name('company.password.request');
-Route::POST('company-password/reset','Company\ResetPasswordController@reset')->name('company.password.update');
 
-Route::GET('company/register','Company\RegisterController@showRegistrationForm')->name('company.register');
-Route::POST('company/register','Company\RegisterController@register');
+
+
 
 });
 
-
+Route::get('company/login','Company\LoginController@showLoginForm')->name('company.login');
+Route::POST('company/login','Company\LoginController@login');
+Route::GET('company-password/confirm','Auth\ConfirmPasswordController@showConfirmForm')->name('company.password.confirm');
+Route::POST('company-password/confirm','Auth\ConfirmPasswordController@confirm');
+Route::POST('company-password/email','Auth\ForgotPasswordController@sendResetLinkEmail')->name('company.password.email');
+Route::GET('company-password/reset','Auth\ForgotPasswordController@showLinkRequestForm')->name('company.password.request');
+Route::POST('company-password/reset','Auth\ResetPasswordController@reset')->name('company.password.update');
+Route::GET('company/register','Company\RegisterController@showRegistrationForm')->name('company.register');
+Route::POST('company/register','Company\RegisterController@register');
 
 
 

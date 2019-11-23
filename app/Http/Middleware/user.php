@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class User
+class user
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class User
     {
         if (Auth::check()){
             if(Auth::user()->is_admin()){
-                return redirect('user/profile');
+                return redirect('company/home');
             }else{
                 return $next($request);
             }
@@ -26,6 +26,5 @@ class User
         }else{
             return redirect('/');
         }
-
     }
 }

@@ -21,7 +21,7 @@ class admin
                 return $next($request);
             }
             else{
-             return redirect('/');
+                return redirect('company/home');
             }
         }else{
             return redirect('/');
