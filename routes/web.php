@@ -22,11 +22,17 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
+Route::group(['middleware'=>['user']],function () {
+    Route::resource('user', 'UserController');
+});
+
+
+Route::group(['middleware'=>['admin']],function (){
+
 Route::get('company/home', 'CompanyController@index')->name('company.home');
-
-
 Route::get('company/login','Company\LoginController@showLoginForm')->name('company.login');
 Route::POST('company/login','Company\LoginController@login');
+
 Route::GET('company-password/confirm','Company\ConfirmPasswordController@showConfirmForm')->name('company.password.confirm');
 Route::POST('company-password/confirm','Company\ConfirmPasswordController@confirm');
 Route::POST('company-password/email','Company\ForgotPasswordController@sendResetLinkEmail')->name('company.password.email');
@@ -36,7 +42,7 @@ Route::POST('company-password/reset','Company\ResetPasswordController@reset')->n
 Route::GET('company/register','Company\RegisterController@showRegistrationForm')->name('company.register');
 Route::POST('company/register','Company\RegisterController@register');
 
-
+});
 
 
 
