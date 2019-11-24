@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">Dashboard</div>
+                    <div class="card-header">Welcome to your Company</div>
 
                     <div class="card-body">
                         @if (session('status'))
@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        You are logged in as company!
+                        <span></span><h3>{{Auth::user()->first_name}}</h3>
                     </div>
                 </div>
             </div>

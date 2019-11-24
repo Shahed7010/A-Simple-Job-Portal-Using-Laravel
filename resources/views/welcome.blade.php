@@ -18,7 +18,7 @@
                 <!-- Brand -->
                 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                        {{ config('app.name', 'JobsForJob') }}
                     </a>
                 @auth
 
@@ -82,12 +82,43 @@
 
 
 
-            <div class="content">
-                <div class="title m-b-md">
-                   <h1>Contents</h1>
-                </div>
-                @yield('post_contents')
-            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+
+
+                        <div class="card-body">
+                            @if (session('status'))
+                                <div class="alert alert-success" role="alert">
+                                    {{ session('status') }}
+                                </div>
+                            @endif
+                            @foreach($posts as $post)
+                                <div class="card">
+                                    <div class="card-header">{{$post->job_title}}</div>
+                                    <div class="card-body">
+                                        <span style="font-weight: bold">Description : </span>
+                                        <p> {{$post->job_description}}</p>
+                                        <p><span style="font-weight: bold">Location : </span> {{$post->location}} , {{$post->country}}</p>
+                                        <p><span style="font-weight: bold">Salary : </span> {{$post->salary}}</p>
+
+                                    </div>
+                                    @guest
+                                        <div class="card-footer">
+                                            <a href="#" class="btn btn-info">Apply Now</a>
+                                        </div>
+                                        @endguest
+                                    @auth
+                                    @if (Auth::user()->is_admin == 0)
+                                    <div class="card-footer">
+                                        <a href="#" class="btn btn-info">Apply Now</a>
+                                    </div>
+                                    @endif
+                                   @endauth
+                                </div>
+                                <br><br>
+                            @endforeach
+                        </div>
+                    </div>
         </div>
     </body>
 </html>

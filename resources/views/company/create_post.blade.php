@@ -15,34 +15,31 @@
                         @endif
                             <h1>create Job_post</h1>
 
-                            {!! Form::open(['method'=>'post', 'action' => 'AdminUsersController@store','files'=>true]) !!}
+                            {!! Form::open(['method'=>'post', 'action' => 'PostController@store']) !!}
                             <div class="form-group">
-                                {!! Form::label('name', 'Name: ') !!}
-                                {!! Form::text('name', null, ['class'=>'form-control']) !!}
+                                {!! Form::label('job_title', 'Job Title: ') !!}
+                                {!! Form::text('job_title', null, ['class'=>'form-control']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('email', 'Email: ') !!}
-                                {!! Form::email('email', null, ['class'=>'form-control']) !!}
+                                {!! Form::label('job_description', 'Job Description: ') !!}
+                                {!! Form::text('job_description', null, ['class'=>'form-control']) !!}
+                            </div>
+                             <div class="form-group">
+                                  {!! Form::label('location', 'Location: ') !!}
+                                  {!! Form::text('location', null, ['class'=>'form-control']) !!}
+                              </div>
+                            <div class="form-group">
+                                {!! Form::label('country', 'Country: ') !!}
+                                {!! Form::text('country', null, ['class'=>'form-control']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('password', 'Password: ') !!}
-                                {!! Form::password('password', ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('role_id', 'Role: ') !!}
-                                {!! Form::select('role_id', $roles, 3,['class'=>'form-control']); !!}
+                                {!! Form::label('salary', 'Salary: ') !!}
+                                {!! Form::text('salary', null, ['class'=>'form-control']) !!}
                             </div>
 
+
                             <div class="form-group">
-                                {!! Form::label('is_active', 'Active Status: ') !!}
-                                {!! Form::select('is_active',array(1=>'Active',0=>'Not Active'), 0, ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::label('photo_id', 'Upload Image: ') !!}
-                                {!! Form::file('photo_id', null, ['class'=>'form-control']) !!}
-                            </div>
-                            <div class="form-group">
-                                {!! Form::submit('Create Post', ['class'=>'btn btn-primary']) !!}
+                                {!! Form::submit('Publish Job Post', ['class'=>'btn btn-primary']) !!}
                             </div>
 
                             {!! Form::close() !!}

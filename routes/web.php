@@ -14,7 +14,8 @@
 use App\Company;
 
 Route::get('/', function () {
-    return view('welcome');
+    $posts = \App\Post::all();
+    return view('welcome',compact('posts'));
 });
 
 Auth::routes();
@@ -32,7 +33,7 @@ Route::group(['middleware'=>['admin']],function (){
 
     Route::get('company/home', 'CompanyController@index')->name('company.home');
 
-
+    Route::resource('company/post', 'PostController');
 
 
 

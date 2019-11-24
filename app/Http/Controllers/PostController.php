@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -13,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('company.create_post');
     }
 
     /**
@@ -34,7 +36,10 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $user = Auth::user();
+        $user->post()->create($input);
+        return redirect('company/home');
     }
 
     /**
@@ -45,7 +50,8 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $posts = Post::where('user_id',$id)->get();
+        return view('company.posted_jobs',compact('posts'));
     }
 
     /**
