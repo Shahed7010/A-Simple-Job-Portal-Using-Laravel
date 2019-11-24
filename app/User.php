@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'first_name','last_name', 'email', 'password','is_admin','business_name',
+        'first_name','last_name', 'email', 'password','is_admin','business_name','photo_id','skills','resume_id','post_id','application_id',
     ];
 
     /**
@@ -39,5 +39,17 @@ class User extends Authenticatable
 
     public function is_admin(){
         return $this->is_admin == 1 ? true : false;
+    }
+    public function photo(){
+        return $this->belongsTo('App\Photo');
+    }
+    public function resume(){
+        return $this->belongsTo('App\Resume');
+    }
+    public function post(){
+        return $this->hasMany('App\Post');
+    }
+    public function application(){
+        return $this->hasMany('App\Application');
     }
 }

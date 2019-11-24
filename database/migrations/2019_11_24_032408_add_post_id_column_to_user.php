@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddIsAdminColumnToUsers extends Migration
+class AddPostIdColumnToUser extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddIsAdminColumnToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->boolean('is_admin')->default(0);
-            $table->String('business_name')->nullable();
+            $table->integer('post_id')->index()->nullable();
+            $table->integer('application_id')->index()->nullable();
         });
     }
 
@@ -27,8 +27,7 @@ class AddIsAdminColumnToUsers extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_admin');
-            $table->dropColumn('business_name');
+            $table->dropColumn('post_id');
         });
     }
 }

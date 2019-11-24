@@ -15,10 +15,17 @@
     </head>
     <body>
             @if (Route::has('login'))
+                <!-- Brand -->
                 <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
                 @auth
-                    <!-- Brand -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">Home</a>
+
+                    <ul class="navbar-nav mr-auto">
+                        <a class="nav-link" href="{{ url('/home') }}">Home</a>
+                    </ul>
+
                         <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Photo;
+use App\Resume;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -47,7 +49,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('user.profile');
+        return view('user.profile',compact('user'));
     }
 
     /**
@@ -58,7 +60,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('user.edit',compact('user'));
     }
 
     /**
@@ -70,7 +73,38 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $user = User::findOrFail($id);
+
+        if($file = $request->file('photo_id')) {
+            if($user->photo_id){
+                unlink(public_path() . $user->photo->name);
+                $photo_data = Photo::findOrFail($user->photo_id);
+                $photo_data->delete($user->photo_id);
+            }
+            $name = time().$file->getClientOriginalName();
+            $file->move('images',$name);
+            $photo = Photo::create(['name'=>$name]);
+            $input['photo_id']= $photo->id;
+        }
+        if($file = $request->file('resume_id')) {
+            if($user->resume_id){
+                unlink(public_path() . $user->resume->name);
+                $resume_data = Photo::findOrFail($user->resume_id);
+                $resume_data->delete($user->resume_id);
+            }
+            $name = time().$file->getClientOriginalName();
+            $file->move('images/documents',$name);
+            $resume = Resume::create(['name'=>$name]);
+            $input['resume_id']= $resume->id;
+        }
+//        if($input['password']) {
+//            $input['password'] = bcrypt($request->password);
+//        }
+        if($user->update($input)){
+            \session()->flash('action','The user has been Updated!');
+        }
+        return redirect('/user/'.$id);
     }
 
     /**
@@ -81,6 +115,17 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if($user->photo_id != null) {
+            unlink(public_path() . $user->photo->name);
+            $photo_data = Photo::findOrFail($user->photo_id);
+            $photo_data->delete($user->photo_id);
+        }
+        if($user->delete()){
+            \session()->flash('action','The user has been Deleted!');
+        }
+
+        return redirect('/user');
     }
+
 }
