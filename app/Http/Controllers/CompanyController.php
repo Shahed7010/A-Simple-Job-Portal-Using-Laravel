@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -23,6 +26,10 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('company.home');
+
+        $applications = Application::where('company_id',Auth::user()->id)->get();
+
+        return view('company.home',compact('applications'));
     }
+
 }

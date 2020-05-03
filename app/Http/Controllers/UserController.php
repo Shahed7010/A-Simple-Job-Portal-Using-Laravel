@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
 use App\Photo;
 use App\Resume;
 use App\User;
@@ -73,6 +74,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $valid = $request->validate([
+            'photo_id'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'resume_id'=>'mimes:pdf|max:1000',
+        ]);
         $input = $request->all();
         $user = User::findOrFail($id);
 
@@ -90,11 +95,11 @@ class UserController extends Controller
         if($file = $request->file('resume_id')) {
             if($user->resume_id){
                 unlink(public_path() . $user->resume->name);
-                $resume_data = Photo::findOrFail($user->resume_id);
+                $resume_data = Resume::findOrFail($user->resume_id);
                 $resume_data->delete($user->resume_id);
             }
             $name = time().$file->getClientOriginalName();
-            $file->move('images/documents',$name);
+            $file->move('documents',$name);
             $resume = Resume::create(['name'=>$name]);
             $input['resume_id']= $resume->id;
         }
@@ -102,6 +107,7 @@ class UserController extends Controller
 //            $input['password'] = bcrypt($request->password);
 //        }
         if($user->update($input)){
+            Application::where('applicant_id',$id)->update(['resume' => '/documents/'.$name]);
             \session()->flash('action','The user has been Updated!');
         }
         return redirect('/user/'.$id);

@@ -11,10 +11,20 @@
 |
 */
 
+use App\Application;
 use App\Company;
+use App\User;
 
 Route::get('/', function () {
-    $posts = \App\Post::all();
+//    $posts = \App\Post::all();
+
+    $posts = DB::table('posts')->leftjoin('applications','posts.id','applications.post_id')
+        ->select('posts.*','applications.applicant_id')
+        ->get();
+
+
+//return response()->json($posts);
+
     return view('welcome',compact('posts'));
 });
 
@@ -32,6 +42,11 @@ Route::group(['middleware'=>['user']],function () {
 Route::group(['middleware'=>['admin']],function (){
 
     Route::get('company/home', 'CompanyController@index')->name('company.home');
+    Route::get('company/notification/{user}/{application}', function ($id, $app_id){
+        User::find($id)->notify(new \App\Notifications\ApplicationNotify());
+        $application = Application::where('id',$app_id)->update(['status' => 'pending']);
+        return $application;
+    })->name('sendNotification');
 
     Route::resource('company/post', 'PostController');
 
@@ -50,7 +65,7 @@ Route::GET('company/register','Company\RegisterController@showRegistrationForm')
 Route::POST('company/register','Company\RegisterController@register');
 
 
-
+Route::get('/application','ApplicationController@apply')->name('application');
 
 
 

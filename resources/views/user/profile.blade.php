@@ -7,6 +7,15 @@
                 @if(session()->get('action'))
                     <p class="bg-success">{{session()->get('action')}}</p>
                 @endif
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 <div class="card">
                     <div class="card-header">Keep always updated your profile
                         <h5>
@@ -26,12 +35,12 @@
                                     <div class="card-body">
                                         First Name: {{$user->first_name}}<br>
                                         Last Name: {{$user->last_name}}<br>
-                                        Skills: {{$user->skill}}<br>
+                                        Skills: {{$user->skills}}<br>
                                         <a href="{{route('user.edit',$user->id)}}" class="btn btn-primary">Edit Profile</a>
                                     </div>
                                 </div>
                                 <br>
-                        <a href="{{$user->resume_id ? $user->resume->name : "#" }}" class="btn btn-info">Download Resume</a>
+                        <a href="{{$user->resume_id ? $user->resume->name : "#" }}" target="_blank" class="btn btn-info">View Resume</a>
                     </div>
                 </div>
             </div>
@@ -56,7 +65,7 @@
                 <div class="card col-md-3">
                     <div class="card-header bg-success">Keep Update Your RESUME</div>
                     <div class="card-body">
-                        <a href="{{$user->resume_id ? $user->resume->name : "#" }}" class="btn btn-info">Download Resume</a> or,
+                        <a href="{{$user->resume_id ? $user->resume->name : "#" }}" target="blank" class="btn btn-info">Download Resume</a> or,
                         <br><br><br>
                         <div class="form-group">
                             {!! Form::model($user, ['method'=>'PATCH','route' => ['user.update', $user->id],'files'=>true]) !!}

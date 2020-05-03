@@ -2,10 +2,21 @@
 
 
 @section('content')
+    <div class="container">
     <h1>edit user</h1>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-8">
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             {!! Form::model($user, ['method'=>'PATCH','route' => ['user.update', $user->id],'files'=>true]) !!}
+
             <div class="col-sm-3">
                 <img height="100px" width="100px" src="{{$user->photo_id ? $user->photo->name : \App\Photo::$thumbnail }}" alt="" class="img-responsive">
                 <div class="form-group">
@@ -43,17 +54,15 @@
 
                     {!! Form::close() !!}
 
-                    {!! Form::open(['method'=>'DELETE', 'action' => ['UserController@destroy',$user->id],'class'=>'pull-right']) !!}
-                    <div class="form-group">
-                        {!! Form::submit('Delete Post', ['class'=>'btn btn-danger']) !!}
-                    </div>
-                    {!! Form::close() !!}
+{{--                    {!! Form::open(['method'=>'DELETE', 'action' => ['UserController@destroy',$user->id],'class'=>'pull-right']) !!}--}}
+{{--                    <div class="form-group">--}}
+{{--                        {!! Form::submit('Remove Your Account', ['class'=>'btn btn-danger']) !!}--}}
+{{--                    </div>--}}
+{{--                    {!! Form::close() !!}--}}
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        @include('includes.show_errors')
     </div>
 
 @endsection

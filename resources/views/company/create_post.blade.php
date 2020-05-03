@@ -14,8 +14,17 @@
                             </div>
                         @endif
                             <h1>create Job_post</h1>
-
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             {!! Form::open(['method'=>'post', 'action' => 'PostController@store']) !!}
+
                             <div class="form-group">
                                 {!! Form::label('job_title', 'Job Title: ') !!}
                                 {!! Form::text('job_title', null, ['class'=>'form-control']) !!}
